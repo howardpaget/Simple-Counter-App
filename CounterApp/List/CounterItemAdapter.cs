@@ -29,7 +29,6 @@ namespace CounterApp.List
             var counterItemTouchHelper = new CounterItemTouchHelper();
             counterItemTouchHelper.ItemSwipe += CounterItemSwipe;
 
-
             new ItemTouchHelper(counterItemTouchHelper).AttachToRecyclerView(recyclerView);
         }
 
