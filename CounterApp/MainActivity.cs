@@ -26,10 +26,12 @@ namespace CounterApp
 
             SupportActionBar.Title = "Simple Counter";
 
+            // Set up SQLite connection
             CounterItemDB = new SQLiteCounterItemService();
-            //await s.InitialiseAsync();
+            await CounterItemDB.InitialiseAsync();
 
-            var recyclerView = FindViewById<RecyclerView>(Resource.Id.recycler_view);
+            // Set up adapter and recycler view
+            var recyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView);
 
             Adapter = new CounterItemAdapter(await CounterItemDB.GetCounterItemsAsync());
             Adapter.CounterChange += CounterChangeAsync;
@@ -41,11 +43,13 @@ namespace CounterApp
             recyclerView.SetAdapter(Adapter);
         }
 
+        // Handle delete events from the adapter
         private async void CounterDeleteAsync(CounterItem item, int postion)
         {
             await CounterItemDB.DeleteCounterItemAsync(item);
         }
 
+        // Handle update events from the adapter
         private async void CounterChangeAsync(CounterItem item, int postion)
         {
             await CounterItemDB.UpdateCounterItemAsync(item);
@@ -54,6 +58,8 @@ namespace CounterApp
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
+            
+            // For some reason setting always show in xml doesn't work...
             menu.GetItem(0).SetShowAsAction(ShowAsAction.Always);
             return true;
         }
@@ -62,11 +68,12 @@ namespace CounterApp
         {
             switch (item.ItemId)
             {
+                // Open up add counter dialog when add counter is clicked
                 case Resource.Id.AddCounter:
                     var builder = new AlertDialog.Builder(this)
                         .SetTitle("Add Counter")
                         .SetView(Resource.Layout.AddCounterDialog)
-                        .SetPositiveButton("Add", AddCounterClick)
+                        .SetPositiveButton("Add", AddCounterDialogClick)
                         .Show();
                     break;
             }
@@ -74,7 +81,8 @@ namespace CounterApp
             return false;
         }
 
-        private async void AddCounterClick(object sender, EventArgs dialogEventClickArgs)
+        // Add the counter to the database when the add counter dialog button is clicked
+        private async void AddCounterDialogClick(object sender, EventArgs dialogEventClickArgs)
         {
             var dialog = sender as AlertDialog;
 

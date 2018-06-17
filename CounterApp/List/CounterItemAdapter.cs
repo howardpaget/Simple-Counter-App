@@ -32,12 +32,14 @@ namespace CounterApp.List
             new ItemTouchHelper(counterItemTouchHelper).AttachToRecyclerView(recyclerView);
         }
 
+        // Handle add counter call from the main activity
         public void AddCounter(CounterItem counterItem)
         {
             CounterItems.Insert(0, counterItem);
             NotifyItemInserted(0);
         }
 
+        // Handle swipe to delete event from the touch helper
         private void CounterItemSwipe(int postion)
         {
             CounterDelete?.Invoke(CounterItems[postion], postion);
@@ -58,7 +60,6 @@ namespace CounterApp.List
             var view = inflater.Inflate(Resource.Layout.CounterItemListItem, parent, false);
 
             var counterItemViewHolder = new CounterItemViewHolder(view);
-
             counterItemViewHolder.CounterChange += OnCounterChange;
 
             return counterItemViewHolder;

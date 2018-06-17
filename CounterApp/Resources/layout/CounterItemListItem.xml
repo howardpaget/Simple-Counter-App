@@ -22,13 +22,13 @@
     <TextView
         android:id="@+id/CounterItemValue"
         android:layout_width="48dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:textSize="18sp"
         android:text="0"
         android:layout_toLeftOf="@+id/AddCountButton"
         android:gravity="center"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp" />
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp" />
   
     <Button
         android:id="@+id/SubtractCountButton"
